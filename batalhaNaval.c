@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
@@ -15,6 +15,15 @@ void exibirTabuleiro(int tabuleiro[10][10]) {
         printf("%2d |", i + 1); // Número da linha (1 a 10)
         for (int j = 0; j < 10; j++) {
             printf(" %d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void exibirHabilidades(int habilidades[5][5]) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%d ", habilidades[i][j]);
         }
         printf("\n");
     }
@@ -126,6 +135,112 @@ int main() {
 
 
     // Nível Mestre - Habilidades Especiais com Matrizes
+     printf("\n Tabuleiro Nivel Mestre - Habilidades Especiais:\n\n");
+
+    int cone[5][5];
+    int cruz[5][5];
+    int octaedro[5][5];
+
+    int centro = 2;
+
+    // Preenche CONE (formato triangular)
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            int dx = abs(j - centro);
+            int dy = i; // distância vertical do topo
+            // A largura cresce 1 unidade a cada linha descendo (até o meio)
+            // Condição: estamos dentro dos limites de um "cone" simétrico
+            cone[i][j] = (dy >= dx && dy <= 2) ? 1 : 0;
+        }
+    }
+
+    // Preenche CRUZ (+)
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            // Está na linha ou coluna central?
+            cruz[i][j] = (i == centro || j == centro) ? 1 : 0;
+        }
+    }
+
+    // Preenche OCTAEDRO (losango)
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            int dx = abs(j - centro);
+            int dy = abs(i - centro);
+            // O losango é formado onde a soma das distâncias ≤ raio (2)
+            octaedro[i][j] = (dx + dy <= 2) ? 1 : 0;
+        }
+    }
+    exibirHabilidades(cone);
+    printf("\n");
+    exibirHabilidades(cruz);
+    printf("\n");
+    exibirHabilidades(octaedro);
+    printf("\n");
+
+      // Definindo pontos de origem para cada habilidade no tabuleiro
+    int origemCone[2] = {3, 3};      // linha, coluna
+    int origemCruz[2] = {7, 5};
+    int origemOctaedro[2] = {5, 2};
+
+    // Cone
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            int linha = origemCone[0] + i - 2;   // deslocamento vertical
+            int coluna = origemCone[1] + j - 2;  // deslocamento horizontal
+
+            // Verifica se o ponto calculado está dentro do tabuleiro (0 a 9)
+            if (linha >= 0 && linha < 10 && coluna >= 0 && coluna < 10) {
+                // Se a habilidade atinge água (0) → marca 1
+                // Se atinge navio (3) → marca 5 (impacto)
+                if (cone[i][j] == 1 && tabuleiro[linha][coluna] == 0) {
+                    tabuleiro[linha][coluna] = 1;
+                } else if (cone[i][j] == 1 && tabuleiro[linha][coluna] == 3) {
+                    tabuleiro[linha][coluna] = 5;
+                }
+            }
+        }
+    }
+
+    // Cruz
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            int linha = origemCruz[0] + i - 2;
+            int coluna = origemCruz[1] + j - 2;
+
+            if (linha >= 0 && linha < 10 && coluna >= 0 && coluna < 10) {
+                if (cruz[i][j] == 1 && tabuleiro[linha][coluna] == 0) {
+                    tabuleiro[linha][coluna] = 1;
+                } else if (cruz[i][j] == 1 && tabuleiro[linha][coluna] == 3) {
+                    tabuleiro[linha][coluna] = 5;
+                }
+            }
+        }
+    }
+
+    // Octaedro
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            int linha = origemOctaedro[0] + i - 2;
+            int coluna = origemOctaedro[1] + j - 2;
+
+            if (linha >= 0 && linha < 10 && coluna >= 0 && coluna < 10) {
+                if (octaedro[i][j] == 1 && tabuleiro[linha][coluna] == 0) {
+                    tabuleiro[linha][coluna] = 1;
+                } else if (octaedro[i][j] == 1 && tabuleiro[linha][coluna] == 3) {
+                    tabuleiro[linha][coluna] = 5;
+                }
+            }
+        }
+    }
+
+    // Exibe o tabuleiro com as áreas de efeito das habilidades
+    exibirTabuleiro(tabuleiro);
+
+
+
+
+
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
     // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
     // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
