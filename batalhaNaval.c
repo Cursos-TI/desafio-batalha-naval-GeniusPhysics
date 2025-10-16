@@ -4,11 +4,77 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
 
+void exibirTabuleiro(int tabuleiro[10][10]) {
+    printf("    "); // Espaço inicial para alinhar com os números das linhas
+    for (int j = 0; j < 10; j++) {
+        printf(" %c ", 'A' + j); // Cabeçalho das colunas (A, B, C, ...)
+    }
+    printf("\n");
+
+    for (int i = 0; i < 10; i++) {
+        printf("%2d |", i + 1); // Número da linha (1 a 10)
+        for (int j = 0; j < 10; j++) {
+            printf(" %d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
 int main() {
     // Nível Novato - Posicionamento dos Navios
     // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
     // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
     // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+
+    int tabuleiro[10][10] = {0};
+
+    int navio1[3] = {3,3,3}; // navio horizontal
+    int navio2[3] = {3,3,3}; // navio vertical
+
+    int linha1 = 2; // posição inicial do primeiro navio (horizontal)
+    int coluna1 = 4;
+    int orientacao1 = 1; // 1 para horizontal e 0 para vertical
+
+    int linha2 = 5; // posição inicial do segundo navio (vertical)
+    int coluna2 = 7;
+    int orientacao2 = 0; // 1 para horizontal e 0 para vertical
+
+   
+    // Posiciona o navio 1 (horizontal)
+    if (coluna1 + 3 > 10 || linha1 > 10) // Verifica se o navio cabe no tabuleiro
+    {
+        printf("O navio nao pode ser posicionado aqui\n");
+        return 0;
+    }
+    for(int i = 0; i < 3; i++) {
+        if (tabuleiro[linha1][coluna1 + i] != 0){ // Verifica se a posicao ja esta ocupada
+            printf("O navio nao pode ser posicionado aqui\n");
+            return 0;
+        }
+        tabuleiro[linha1][coluna1 + i] = navio1[i];
+    }
+    
+    // Posiciona o navio 2 (vertical)
+    if (linha2 + 3 > 10 || coluna2 > 10) // Verifica se o navio cabe no tabuleiro
+    {
+        printf("O navio nao pode ser posicionado aqui\n");
+        return 0;
+    }
+    for(int i = 0; i < 3; i++) {
+        if (tabuleiro[linha2 + i][coluna2] != 0){ // Verifica se a posicao ja esta ocupada
+            printf("O navio nao pode ser posicionado aqui\n");
+            return 0;
+        }
+        tabuleiro[linha2 + i][coluna2] = navio2[i];
+    }
+
+    
+    exibirTabuleiro(tabuleiro);
+    
+
+
+
 
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
     // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
@@ -38,3 +104,4 @@ int main() {
 
     return 0;
 }
+
