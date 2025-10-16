@@ -29,41 +29,45 @@ int main() {
 
     int tabuleiro[10][10] = {0};
 
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            tabuleiro[i][j] = 0;
+        }
+    }
+
     int navio1[3] = {3,3,3}; // navio horizontal
     int navio2[3] = {3,3,3}; // navio vertical
 
     int linha1 = 2; // posição inicial do primeiro navio (horizontal)
     int coluna1 = 4;
-    int orientacao1 = 1; // 1 para horizontal e 0 para vertical
 
     int linha2 = 5; // posição inicial do segundo navio (vertical)
     int coluna2 = 7;
-    int orientacao2 = 0; // 1 para horizontal e 0 para vertical
 
    
     // Posiciona o navio 1 (horizontal)
-    if (coluna1 + 3 > 10 || linha1 > 10) // Verifica se o navio cabe no tabuleiro
+    if (coluna1 + 3 > 10 || linha1 > 10 || linha1 < 0 || coluna1 < 0 ) // Verifica se o navio cabe no tabuleiro
     {
-        printf("O navio nao pode ser posicionado aqui\n");
+        printf("O navio 1 nao pode ser posicionado aqui\n");
         return 0;
     }
     for(int i = 0; i < 3; i++) {
         if (tabuleiro[linha1][coluna1 + i] != 0){ // Verifica se a posicao ja esta ocupada
-            printf("O navio nao pode ser posicionado aqui\n");
+            printf("O navio 1 colide com outro navio\n");
             return 0;
         }
         tabuleiro[linha1][coluna1 + i] = navio1[i];
     }
     
     // Posiciona o navio 2 (vertical)
-    if (linha2 + 3 > 10 || coluna2 > 10) // Verifica se o navio cabe no tabuleiro
+    if (linha2 + 3 > 10 || coluna2 > 10 || coluna2 < 0 || linha2 < 0  ) // Verifica se o navio cabe no tabuleiro
     {
-        printf("O navio nao pode ser posicionado aqui\n");
+        printf("O navio 2 nao pode ser posicionado aqui\n");
         return 0;
     }
     for(int i = 0; i < 3; i++) {
         if (tabuleiro[linha2 + i][coluna2] != 0){ // Verifica se a posicao ja esta ocupada
-            printf("O navio nao pode ser posicionado aqui\n");
+            printf("O navio 2 colide com outro navio\n");
             return 0;
         }
         tabuleiro[linha2 + i][coluna2] = navio2[i];
@@ -73,13 +77,53 @@ int main() {
     exibirTabuleiro(tabuleiro);
     
 
-
-
-
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
     // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
     // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
     // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    printf(" Tabuleiro  Nivel Aventureiro: \n\n");
+    int navio3[3] = {3,3,3}; // diagonal principal 
+    int navio4[3] = {3,3,3}; // diagonal secundária 
+
+    int linha3 = 7; 
+    int coluna3 = 1;
+
+    int linha4 = 4; 
+    int coluna4 = 2;
+
+    // Posiciona o navio 3 (diagonal principal)
+    if (linha3 + 3 > 10  || coluna3 + 3 > 10 || linha3 < 0 || coluna3 < 0 ) { // Verifica se o navio cabe no tabuleiro
+        printf("O navio 3 nao pode ser posicionado aqui\n");
+        return 0;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (tabuleiro[linha3 + i][coluna3 + i] != 0) { // Verifica se a posicao ja esta ocupada
+            printf("O navio 3 colide com outro navio!\n");
+            return 0;
+        }
+        tabuleiro[linha3 + i][coluna3 + i] = navio3[i];
+    }
+    
+    // Posiciona o navio 4 (diagonal secundária)
+    if (linha4 + 3 > 10 || coluna4 - 2 < 0 || linha4 < 0 || coluna4 > 10 ) { // Verifica se o navio cabe no tabuleiro
+        printf("O navio 4 nao pode ser posicionado aqui\n");
+        return 0;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (tabuleiro[linha4 + i][coluna4 - i] != 0) { // Verifica se a posicao ja esta ocupada
+            printf("O navio 4 colide com outro navio!\n");
+            return 0;
+        }
+        tabuleiro[linha4 + i][coluna4 - i] = navio4[i];
+
+    }
+
+    
+    exibirTabuleiro(tabuleiro);
+
+
 
     // Nível Mestre - Habilidades Especiais com Matrizes
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
